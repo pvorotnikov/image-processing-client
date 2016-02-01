@@ -105,52 +105,14 @@ switch ($_GET['do']) {
 
     /**
      * ===========================
-     * Get the histogram of an image
-     * ===========================
-     */
-    case 'histogram':
-
-        // base64-encode-image
-        $im = file_get_contents('../' . base64_decode($_GET['image']));
-        $imdata = base64_encode($im);
-
-        // send image over SOAP
-        $result = $client->call("getHistogram", array("image" => $imdata));
-
-        // Return result
-        if ($client->fault) {
-            $response = array('status' => 'error', 'errorMessage' => $result);
-        } else {
-            $error = $client->getError();
-            if ($error) {
-                $response = array('status' => 'error', 'errorMessage' => $error);
-            } else {
-                $response = array('status' => 'ok', 'data' => array(
-                    'image' => $result
-                ));
-            }
-        }
-
-        // also add debug information
-        if (isset($_GET['debug'])) {
-            $response['debug'] = array(
-                'req' => htmlspecialchars($client->request, ENT_QUOTES),
-                'res' => htmlspecialchars($client->response, ENT_QUOTES)
-            );
-        }
-
-        echo json_encode($response);
-        break;
-
-    /**
-     * ===========================
      * Get the Sobel edge detection of an image
      * ===========================
      */
     case 'edge':
 
         // base64-encode-image
-        $im = file_get_contents('../' . base64_decode($_GET['image']));
+        $filename = base64_decode($_GET['image']);
+        $im = file_get_contents('../' . $filename);
         $imdata = base64_encode($im);
 
         // send image over SOAP
@@ -164,8 +126,12 @@ switch ($_GET['do']) {
             if ($error) {
                 $response = array('status' => 'error', 'errorMessage' => $error);
             } else {
+
+                $target_file = save_file($result, 'sobel-' . basename($filename));
+                $target_file = 'tmp/' . basename($target_file);
+
                 $response = array('status' => 'ok', 'data' => array(
-                    'image' => $result
+                    'image' => $target_file
                 ));
             }
         }
@@ -190,6 +156,14 @@ switch ($_GET['do']) {
         $response = array('status' => 'error', 'errorMessage' => 'Bad request');
         echo json_encode($response);
         break;
+}
+
+function save_file($contents, $filename) {
+    $target_file = '../tmp/' . $filename;
+    $handle = fopen($target_file, "wb");
+    fwrite($handle, base64_decode($contents));
+    fclose($handle);
+    return $target_file;
 }
 
 function process_file() {

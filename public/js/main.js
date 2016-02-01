@@ -23,8 +23,7 @@ $(document).ready(function() {
             beforeSend: function() {
                 $('#imageResult').empty();
                 $('#classificationResult').empty();
-                $('#histogramResult').empty();
-                $('#edgeDetectionResult').empty();
+                $('#edgeResult').empty();
                 $('.btn-primary', $form).attr('disabled', 'disabled').text('Processing');
             }
         })
@@ -84,37 +83,6 @@ $(document).ready(function() {
 
     });
 
-    // get the histogram of the image
-    $('#histogram').on('click', function($e) {
-        $e.preventDefault();
-
-        if (!lastImageFile) {
-            return;
-        }
-
-        $.ajax({
-            type: 'GET',
-            url: 'ajax/processimage.php',
-            data: {'do': 'histogram', 'image': btoa(lastImageFile)},
-            contentType: 'json',
-            cache: false,
-            beforeSend: function() {
-                $('#histogramResult').empty();
-                $('#histogram').attr('disabled', 'disabled').text('Processing');
-            }
-        })
-        .done(function(data) {
-            $('#histogramResult').html(data.data.image);
-        })
-        .fail(function(xhr, status, err) {
-            console.error(err.toString());
-        })
-        .always(function() {
-            $('#histogram').removeAttr('disabled').text('Get Histogram');
-        });
-
-    });
-
     // get the edge detection of the image
     $('#edge').on('click', function($e) {
         $e.preventDefault();
@@ -135,7 +103,13 @@ $(document).ready(function() {
             }
         })
         .done(function(data) {
-            $('#edgeResult').html(data.data.image);
+            // add image
+            var $imgContainer = $('<div></div>');
+            $imgContainer.addClass('image-container');
+            var $img = $('<img />');
+            $img.attr('src', data.data.image);
+            $imgContainer.append($img);
+            $('#edgeResult').append($imgContainer);
         })
         .fail(function(xhr, status, err) {
             console.error(err.toString());

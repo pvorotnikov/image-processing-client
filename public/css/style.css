@@ -7,6 +7,14 @@
     width: 100%;
 }
 
+#edgeResult img {
+    width: 100%;
+}
+
+#histogamResult img {
+    width: 100%;
+}
+
 .results .panel-heading {
     position: relative;
 }

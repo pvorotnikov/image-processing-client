@@ -33,13 +33,6 @@
 
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <a href="#" id="histogram" class="btn btn-primary btn-sm">Get Histogram</a>
-                        <span>Histogram</span></div>
-                    <div class="panel-body" id="histogramResult"></div>
-                </div>
-
-                <div class="panel panel-default">
-                    <div class="panel-heading">
                         <a href="#" id="edge" class="btn btn-primary btn-sm">Detect Edges</a>
                         <span>Edge Detection</span></div>
                     <div class="panel-body" id="edgeResult"></div>
