@@ -60,3 +60,16 @@ target/
 
 #Ipython Notebook
 .ipynb_checkpoints
+
+# ftpsync and sftp
+sftp-config.json
+ftpsync.settings
+
+# configuration
+config.php
+
+# Mac OS X files
+.DS_Store
+
+# bower libraries
+public/lib

@@ -1,0 +1,19 @@
+#page_404 {
+    width: 500px;
+    margin: 30px auto;
+}
+
+#imageResult img {
+    width: 100%;
+}
+
+.results .panel-heading {
+    position: relative;
+}
+
+.results a.btn {
+    margin: 0px;
+    position: absolute;
+    right: 5px;
+    top: 6px;
+}
