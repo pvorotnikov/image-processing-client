@@ -13,6 +13,10 @@ $(document).ready(function() {
         var $form = $(this);
         var formData = new FormData($(this)[0]);
 
+        if ('' == this.imageFile.value) {
+            return;
+        }
+
         $.ajax({
             type: 'POST',
             url: $form.attr('action'),
